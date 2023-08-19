@@ -34,17 +34,20 @@ namespace AnimalShelterAPI.Controllers
             }
             else if (Animal.ToLower() == "cat")
             {
-                var cats = _context.Cats.ToList();
+                AnimalData cats = new AnimalData { Cats = _context.Cats.ToList() };
+                cats.Filter(Animal, Id, Breed, Age, IsAdopted);
 
 
-                return Ok(cats);
+
+                return Ok(new { error = false, cats.Cats });
 
             }
             else if (Animal.ToLower() == "dog")
             {
-                var dogs = _context.Dogs.ToList();
+                AnimalData dogs = new AnimalData { Dogs = _context.Dogs.ToList() };
+                dogs.Filter(Animal, Id, Breed, Age, IsAdopted);
 
-                return Ok(dogs);
+                return Ok(new { error = false, dogs.Dogs });
             }
             else
             {
@@ -68,7 +71,7 @@ namespace AnimalShelterAPI.Controllers
 
             if (animal.ToLower() == "cat")
             {
-                var newCat = new Cat
+                Cat newCat = new Cat
                 {
                     Name = name,
                     Breed = breed,
@@ -82,7 +85,7 @@ namespace AnimalShelterAPI.Controllers
             }
             else if (animal.ToLower() == "dog")
             {
-                var newDog = new Dog
+                Dog newDog = new Dog
                 {
                     Name = name,
                     Breed = breed,
@@ -92,7 +95,7 @@ namespace AnimalShelterAPI.Controllers
                 _context.Dogs.Add(newDog);
                 _context.SaveChanges();
 
-                return Ok(new { message = "Dog created successfully." });
+                return Ok(new { error = false, message = "Dog created successfully." });
             }
             else
             {
