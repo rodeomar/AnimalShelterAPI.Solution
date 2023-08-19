@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿#nullable disable
+
+using Microsoft.AspNetCore.Mvc;
 using AnimalShelterAPI.Models;
 
 namespace AnimalShelterAPI.Controllers
@@ -125,7 +127,7 @@ namespace AnimalShelterAPI.Controllers
 
             _context.SaveChanges();
 
-            return Ok(new { message = "Animal updated successfully." });
+            return Ok(new { error = false, message = "Animal updated successfully." });
         }
 
 
@@ -143,6 +145,34 @@ namespace AnimalShelterAPI.Controllers
             {
                 return null;
             }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id, string animal)
+        {
+            dynamic animalToDelete = GetAnimalById(id, animal);
+
+            if (animalToDelete == null)
+            {
+                return NotFound(new { error = true, message = "Animal not found." });
+            }
+
+            if (animal.ToLower() == "cat")
+            {
+                _context.Cats.Remove(animalToDelete);
+            }
+            else if (animal.ToLower() == "dog")
+            {
+                _context.Dogs.Remove(animalToDelete);
+            }
+            else
+            {
+                return BadRequest(new { error = true, message = "Invalid Animal Type" });
+            }
+
+            _context.SaveChanges();
+
+            return Ok(new { error = false, message = "Animal deleted successfully." });
         }
 
 
