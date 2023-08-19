@@ -103,6 +103,31 @@ namespace AnimalShelterAPI.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, string animal, string name, string breed, int age, bool isAdopted)
+        {
+            if (string.IsNullOrEmpty(animal) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(breed) || age <= 0)
+            {
+                return BadRequest(new { error = true, message = "Invalid input data." });
+            }
+            Console.WriteLine(id);
+            dynamic animalToUpdate = GetAnimalById(id, animal);
+
+            if (animalToUpdate == null)
+            {
+                return NotFound(new { error = true, message = "Animal not found." });
+            }
+
+            animalToUpdate.Name = name;
+            animalToUpdate.Breed = breed;
+            animalToUpdate.Age = age;
+            animalToUpdate.IsAdopted = isAdopted;
+
+            _context.SaveChanges();
+
+            return Ok(new { message = "Animal updated successfully." });
+        }
+
 
         private dynamic GetAnimalById(int id, string animalType)
         {
