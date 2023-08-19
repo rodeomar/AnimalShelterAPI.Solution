@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AnimalShelterAPI.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AnimalShelterAPI.Controllers
 {
@@ -24,15 +25,16 @@ namespace AnimalShelterAPI.Controllers
                 Animal = "both";
             }
 
-            if (Animal == "both")
+            if (Animal.ToLower() == "both")
             {
                 List<Cat> cats = _context.Cats.ToList();
                 List<Dog> dogs = _context.Dogs.ToList();
 
-                var animals = new { Cats = cats, Dogs = dogs };
+                AnimalData animals = new AnimalData{ Cats = cats, Dogs = dogs };
+                animals.Filter(Animal, Id, Breed, Age, IsAdopted);
                 return Ok(animals);
             }
-            else if (Animal == "cat")
+            else if (Animal.ToLower() == "cat")
             {
                 var cats = _context.Cats.ToList();
 
@@ -40,7 +42,7 @@ namespace AnimalShelterAPI.Controllers
                 return Ok(cats);
 
             }
-            else if (Animal == "dog")
+            else if (Animal.ToLower() == "dog")
             {
                 var dogs = _context.Dogs.ToList();
 
