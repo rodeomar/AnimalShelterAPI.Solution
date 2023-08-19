@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using AnimalShelterAPI.Models;
+using System.Reflection.Metadata;
 
 namespace AnimalShelterAPI.Controllers
 {
@@ -16,8 +17,17 @@ namespace AnimalShelterAPI.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves a list of animals from the animal shelter.
+        /// </summary>
+        /// <param name="Animal">Filter by animal type ("both", "cat", "dog")</param>
+        /// <param name="Id">Filter by animal ID</param>
+        /// <param name="Breed">Filter by animal breed</param>
+        /// <param name="Age">Filter by animal age</param>
+        /// <param name="IsAdopted">Filter by adoption status</param>
+        /// <returns>A list of animals based on the provided filters.</returns>
         [HttpGet]
-        public IActionResult Get(string? Animal, int? Id, string? Breed, int? Age, string? IsAdopted)
+        public IActionResult Get(string? Animal, int? Id, string? Breed, int? Age, bool IsAdopted)
         {
 
             if (Animal == null)
@@ -61,6 +71,15 @@ namespace AnimalShelterAPI.Controllers
             }
 
         }
+
+        /// <summary>
+        /// Creates a new animal in the animal shelter.
+        /// </summary>
+        /// <param name="animal">Animal type ("cat" or "dog")</param>
+        /// <param name="name">Animal name</param>
+        /// <param name="breed">Animal breed</param>
+        /// <param name="age">Animal age</param>
+        /// <returns>Response indicating the success of the operation.</returns>
         [HttpPost]
         public IActionResult Create(string animal, string name, string breed, int age)
         {
@@ -105,6 +124,16 @@ namespace AnimalShelterAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates an existing animal in the animal shelter.
+        /// </summary>
+        /// <param name="id">Animal ID</param>
+        /// <param name="animal">Animal type ("cat" or "dog")</param>
+        /// <param name="name">Updated animal name</param>
+        /// <param name="breed">Updated animal breed</param>
+        /// <param name="age">Updated animal age</param>
+        /// <param name="isAdopted">Updated adoption status</param>
+        /// <returns>Response indicating the success of the operation.</returns>
         [HttpPut("{id}")]
         public IActionResult Update(int id, string animal, string name, string breed, int age, bool isAdopted)
         {
@@ -131,6 +160,7 @@ namespace AnimalShelterAPI.Controllers
         }
 
 
+        
         private dynamic GetAnimalById(int id, string animalType)
         {
             if (animalType.ToLower() == "cat")
@@ -147,6 +177,12 @@ namespace AnimalShelterAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes an existing animal from the animal shelter.
+        /// </summary>
+        /// <param name="id">Animal ID</param>
+        /// <param name="animal">Animal type ("cat" or "dog")</param>
+        /// <returns>Response indicating the success of the operation.</returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id, string animal)
         {
@@ -172,7 +208,7 @@ namespace AnimalShelterAPI.Controllers
 
             _context.SaveChanges();
 
-            return Ok(new { error = false, message = "Animal deleted successfully." });
+            return Ok(new { error = false, message = "Animal deleted successfully.", Documentation= "/api/docs"});
         }
 
 

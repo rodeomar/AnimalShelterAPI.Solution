@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Animal Shelter API Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Animal Shelter API Documentation</h1>
+        <div class="alert alert-info" role="alert">
+            <p><strong>Test the API:</strong> You can test the API endpoints using the <a href="https://localhost:5000/index.html" target="_blank">Swagger UI</a>.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>GET /api/Animals</h3>
+            </div>
+            <div class="card-body">
+                <p>Retrieves a list of animals from the animal shelter.</p>
+                <h5>Parameters:</h5>
+                <ul>
+                    <li><code>Animal</code> (string, optional): Filter by animal type ("both", "cat", "dog")</li>
+                    <li><code>Id</code> (integer, optional): Filter by animal ID</li>
+                    <li><code>Breed</code> (string, optional): Filter by animal breed</li>
+                    <li><code>Age</code> (integer, optional): Filter by animal age</li>
+                    <li><code>IsAdopted</code> (string, optional): Filter by adoption status</li>
+                </ul>
+                <h5>Response:</h5>
+                <p>Status code 200 - Success</p>
+                <h5>Example:</h5>
+                <p>GET /api/Animals?Animal=cat&Age=2</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>POST /api/Animals</h3>
+            </div>
+            <div class="card-body">
+                <p>Creates a new animal in the animal shelter.</p>
+                <h5>Parameters:</h5>
+                <ul>
+                    <li><code>animal</code> (string): Animal type ("cat" or "dog")</li>
+                    <li><code>name</code> (string): Animal name</li>
+                    <li><code>breed</code> (string): Animal breed</li>
+                    <li><code>age</code> (integer): Animal age</li>
+                </ul>
+                <h5>Response:</h5>
+                <p>Status code 200 - Success</p>
+                <h5>Example:</h5>
+                <p>POST /api/Animals</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>PUT /api/Animals/{id}</h3>
+            </div>
+            <div class="card-body">
+                <p>Updates an existing animal in the animal shelter.</p>
+                <h5>Parameters:</h5>
+                <ul>
+                    <li><code>id</code> (integer, path): Animal ID</li>
+                    <li><code>animal</code> (string): Animal type ("cat" or "dog")</li>
+                    <li><code>name</code> (string): Updated animal name</li>
+                    <li><code>breed</code> (string): Updated animal breed</li>
+                    <li><code>age</code> (integer): Updated animal age</li>
+                    <li><code>isAdopted</code> (boolean): Updated adoption status</li>
+                </ul>
+                <h5>Response:</h5>
+                <p>Status code 200 - Success</p>
+                <h5>Example:</h5>
+                <p>PUT /api/Animals/10</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>DELETE /api/Animals/{id}</h3>
+            </div>
+            <div class="card-body">
+                <p>Deletes an existing animal from the animal shelter.</p>
+                <h5>Parameters:</h5>
+                <ul>
+                    <li><code>id</code> (integer, path): Animal ID</li>
+                    <li><code>animal</code> (string): Animal type ("cat" or "dog")</li>
+                </ul>
+                <h5>Response:</h5>
+                <p>Status code 200 - Success</p>
+                <h5>Example:</h5>
+                <p>DELETE /api/Animals/10?animal=cat</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

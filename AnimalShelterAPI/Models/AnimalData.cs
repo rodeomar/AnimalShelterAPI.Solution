@@ -5,7 +5,7 @@
         public List<Cat> Cats { get; set; }
         public List<Dog> Dogs { get; set; }
 
-        public void Filter(string animal, int? id, string? breed, int? age, string? isAdopted)
+        public void Filter(string animal, int? id, string? breed, int? age, bool? isAdopted)
         {
          
             if (animal.ToLower() == "both")
@@ -22,7 +22,7 @@
 
         }
 
-        public void Filter<T>(List<T> data, int? id, string? breed, int? age, string? isAdopted)
+        public void Filter<T>(List<T> data, int? id, string? breed, int? age, bool? isAdopted)
         {
             if (id != null)
             {
@@ -39,10 +39,9 @@
                 data.RemoveAll(item => GetAge(item) != age);
             }
 
-            if (!string.IsNullOrEmpty(isAdopted))
+            if (isAdopted != null)
             {
-                bool adopted = isAdopted.ToLower() == "true";
-                data.RemoveAll(item => GetIsAdopted(item) != adopted);
+                data.RemoveAll(item => GetIsAdopted(item) != isAdopted);
             }
         }
 
