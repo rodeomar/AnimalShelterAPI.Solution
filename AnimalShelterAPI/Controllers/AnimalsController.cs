@@ -104,5 +104,22 @@ namespace AnimalShelterAPI.Controllers
         }
 
 
+        private dynamic GetAnimalById(int id, string animalType)
+        {
+            if (animalType.ToLower() == "cat")
+            {
+                return _context.Cats.FirstOrDefault(cat => cat.Id == id);
+            }
+            else if (animalType.ToLower() == "dog")
+            {
+                return _context.Dogs.FirstOrDefault(dog => dog.Id == id);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
     }
 }
