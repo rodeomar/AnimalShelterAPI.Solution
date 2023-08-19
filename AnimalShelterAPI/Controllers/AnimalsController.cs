@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AnimalShelterAPI.Models;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AnimalShelterAPI.Controllers
 {
@@ -30,7 +28,7 @@ namespace AnimalShelterAPI.Controllers
                 List<Cat> cats = _context.Cats.ToList();
                 List<Dog> dogs = _context.Dogs.ToList();
 
-                AnimalData animals = new AnimalData{ Cats = cats, Dogs = dogs };
+                AnimalData animals = new AnimalData { Cats = cats, Dogs = dogs };
                 animals.Filter(Animal, Id, Breed, Age, IsAdopted);
                 return Ok(animals);
             }
@@ -58,5 +56,50 @@ namespace AnimalShelterAPI.Controllers
             }
 
         }
+        [HttpPost]
+        public IActionResult Create(string animal, string name, string breed, int age)
+        {
+            if (string.IsNullOrEmpty(animal) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(breed) || age <= 0)
+            {
+                return BadRequest(new { error = true, message = "Invalid input data." });
+            }
+
+            bool isAdopted = false;
+
+            if (animal.ToLower() == "cat")
+            {
+                var newCat = new Cat
+                {
+                    Name = name,
+                    Breed = breed,
+                    Age = age,
+                    IsAdopted = isAdopted
+                };
+                _context.Cats.Add(newCat);
+                _context.SaveChanges();
+
+                return Ok(new { error = false, message = "Cat created successfully." });
+            }
+            else if (animal.ToLower() == "dog")
+            {
+                var newDog = new Dog
+                {
+                    Name = name,
+                    Breed = breed,
+                    Age = age,
+                    IsAdopted = isAdopted
+                };
+                _context.Dogs.Add(newDog);
+                _context.SaveChanges();
+
+                return Ok(new { message = "Dog created successfully." });
+            }
+            else
+            {
+                return BadRequest(new { error = true, message = "Invalid Animal Type" });
+            }
+        }
+
+
     }
 }
