@@ -43,6 +43,7 @@
             {
                 data.RemoveAll(item => GetIsAdopted(item) != isAdopted);
             }
+            
         }
 
         private int GetId<T>(T item)

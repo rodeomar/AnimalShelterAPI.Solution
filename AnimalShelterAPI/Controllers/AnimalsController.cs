@@ -27,7 +27,7 @@ namespace AnimalShelterAPI.Controllers
         /// <param name="IsAdopted">Filter by adoption status</param>
         /// <returns>A list of animals based on the provided filters.</returns>
         [HttpGet]
-        public IActionResult Get(string? Animal, int? Id, string? Breed, int? Age, bool IsAdopted)
+        public IActionResult Get(string? Animal, int? Id, string? Breed, int? Age, bool? IsAdopted)
         {
 
             if (Animal == null)
@@ -135,14 +135,33 @@ namespace AnimalShelterAPI.Controllers
         /// <param name="isAdopted">Updated adoption status</param>
         /// <returns>Response indicating the success of the operation.</returns>
         [HttpPut("{id}")]
-        public IActionResult Update(int id, string animal, string name, string breed, int age, bool isAdopted)
+        public IActionResult Update(int id, string animal, string name, string breed, int? age, bool? isAdopted)
         {
+
             if (string.IsNullOrEmpty(animal))
             {
                 return BadRequest(new { error = true, message = "Invalid input data." });
             }
-            Console.WriteLine(id);
+
             dynamic animalToUpdate = GetAnimalById(id, animal);
+
+            if (string.IsNullOrEmpty(name))
+            {
+                name = animalToUpdate.Name;
+            }
+            if (string.IsNullOrEmpty(breed))
+            {
+                breed = animalToUpdate.Breed;
+            }
+            if (age == null) {
+                age = animalToUpdate.Age;
+            }
+            if(age <= 0)
+            {
+                return BadRequest(new { error = true, message = "Age cannot less than 0" });
+            }if(isAdopted == null) { 
+                isAdopted = animalToUpdate.IsAdopted;
+            }
 
             if (animalToUpdate == null)
             {
@@ -151,8 +170,8 @@ namespace AnimalShelterAPI.Controllers
 
             animalToUpdate.Name = name;
             animalToUpdate.Breed = breed;
-            animalToUpdate.Age = age;
-            animalToUpdate.IsAdopted = isAdopted;
+            animalToUpdate.Age = (int)age;
+            animalToUpdate.IsAdopted = (bool)isAdopted;
 
             _context.SaveChanges();
 
