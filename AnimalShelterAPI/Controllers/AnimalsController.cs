@@ -137,7 +137,7 @@ namespace AnimalShelterAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, string animal, string name, string breed, int age, bool isAdopted)
         {
-            if (string.IsNullOrEmpty(animal) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(breed) || age <= 0)
+            if (string.IsNullOrEmpty(animal))
             {
                 return BadRequest(new { error = true, message = "Invalid input data." });
             }
