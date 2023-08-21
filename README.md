@@ -73,3 +73,9 @@ You can also access the API documentation at:
 ```
 https://localhost:5000/api/docs
 ```
+Known Bugs
+None
+```
+License Please let me know if you have any questions or concerns raed@alkhanbashi.gmail.com
+
+Copyright (c) 2023 Raed Alkhanbashi.
