@@ -17,6 +17,46 @@ namespace AnimalShelterAPI.Controllers
             _context = context;
         }
 
+
+        /// <summary>
+        /// Retrieves a specific animal from the animal shelter by ID and type.
+        /// </summary>
+        /// <param name="animalType">Animal type ("cat" or "dog")</param>
+        /// <param name="id">Animal ID</param>
+        /// <returns>Details of the specific animal.</returns>
+        [HttpGet("{animalType}/{id}")]
+        public IActionResult GetAnimal(string animalType, int id)
+        {
+            dynamic animal = GetAnimalById(id, animalType);
+
+            if (animal == null)
+            {
+                return NotFound(new { error = true, message = "Animal not found." });
+            }
+
+            return Ok(animal);
+        }
+
+        /// <summary>
+        /// Retrieves both cat and dog animals from the animal shelter by a single ID.
+        /// </summary>
+        /// <param name="id">Animal ID</param>
+        /// <returns>Details of both cat and dog animals with the specified ID.</returns>
+        [HttpGet("{id}")]
+        public IActionResult GetAnimalsById(int id)
+        {
+            dynamic catAnimal = GetAnimalById(id, "cat");
+            dynamic dogAnimal = GetAnimalById(id, "dog");
+
+            if (catAnimal == null && dogAnimal == null)
+            {
+                return NotFound(new { error = true, message = "Animals not found." });
+            }
+
+            var animals = new {error=false,  Cat = catAnimal, Dog = dogAnimal };
+            return Ok(animals);
+        }
+
         /// <summary>
         /// Retrieves a list of animals from the animal shelter.
         /// </summary>
@@ -153,13 +193,16 @@ namespace AnimalShelterAPI.Controllers
             {
                 breed = animalToUpdate.Breed;
             }
-            if (age == null) {
+            if (age == null)
+            {
                 age = animalToUpdate.Age;
             }
-            if(age <= 0)
+            if (age <= 0)
             {
                 return BadRequest(new { error = true, message = "Age cannot less than 0" });
-            }if(isAdopted == null) { 
+            }
+            if (isAdopted == null)
+            {
                 isAdopted = animalToUpdate.IsAdopted;
             }
 
@@ -179,7 +222,7 @@ namespace AnimalShelterAPI.Controllers
         }
 
 
-        
+
         private dynamic GetAnimalById(int id, string animalType)
         {
             if (animalType.ToLower() == "cat")
@@ -227,7 +270,7 @@ namespace AnimalShelterAPI.Controllers
 
             _context.SaveChanges();
 
-            return Ok(new { error = false, message = "Animal deleted successfully.", Documentation= "/api/docs"});
+            return Ok(new { error = false, message = "Animal deleted successfully.", Documentation = "/api/docs" });
         }
 
 
